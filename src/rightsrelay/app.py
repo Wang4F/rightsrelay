@@ -111,13 +111,14 @@ def ready():
         problems.append("voice-model-missing")
     if settings.require_b2 and not settings.b2_enabled:
         problems.append("b2-required")
-    if getattr(app.state, "seed_status", None) == "error":
-        problems.append("demo-seed-failed")
+    seed_status = getattr(app.state, "seed_status", "not-started")
+    if settings.seed_demo and seed_status != "ready":
+        problems.append("demo-seed-failed" if seed_status == "error" else "demo-seed-not-ready")
     body = {
         "status": "ready" if not problems else "not-ready",
         "problems": problems,
         "b2_configured": settings.b2_enabled,
-        "seed_status": getattr(app.state, "seed_status", "not-started"),
+        "seed_status": seed_status,
     }
     return JSONResponse(body, status_code=200 if not problems else 503)
 
