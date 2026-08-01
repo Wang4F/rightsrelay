@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Revocation-aware synthetic voice pipelines with verifiable provenance.">
+  <title>RightsRelay</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="mesh"></div>
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">RR</span>
+      <span>RightsRelay</span>
+    </a>
+    <div class="system-badges">
+      <span class="badge"><i class="dot green"></i> Local neural generation</span>
+      <span class="badge" id="b2-badge"><i class="dot"></i> Loading storage</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">REVOCATION-AWARE MEDIA OPERATIONS</p>
+        <h1>Revoke once.<br><span>Regenerate every derivative.</span></h1>
+        <p class="lede">Track which synthetic voice produced each campaign asset. When a
+          profile becomes unavailable, replace every affected voiceover and preserve a
+          verifiable before/after trail.</p>
+      </div>
+      <div class="flow-card" aria-label="RightsRelay pipeline">
+        <div><b>01</b><span>Script</span><small>SHA-256 source</small></div>
+        <em>→</em>
+        <div><b>02</b><span>Generate</span><small>Piper via Genblaze</small></div>
+        <em>→</em>
+        <div><b>03</b><span>Persist</span><small>B2 + manifest</small></div>
+        <em>→</em>
+        <div><b>04</b><span>Relay</span><small>Regenerate on revoke</small></div>
+      </div>
+    </section>
+
+    <section class="grid main-grid">
+      <article class="panel create-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">NEW DERIVATIVE</p><h2>Create a voice campaign</h2></div>
+          <span class="step-pill">Genblaze Pipeline</span>
+        </div>
+        <form id="campaign-form">
+          <label>Campaign title
+            <input id="title" maxlength="100" value="Autumn product launch" required>
+          </label>
+          <label>Voiceover script
+            <textarea id="script" maxlength="1500" rows="6" required>Meet the collection built for quieter mornings and longer journeys. Every detail is designed to move with you.</textarea>
+          </label>
+          <div class="form-row">
+            <label>Approved voice profile
+              <select id="voice" required></select>
+            </label>
+            <label>Operational use window <span>(optional)</span>
+              <input id="valid-until" type="date">
+            </label>
+          </div>
+          <button class="primary" type="submit" id="generate-btn">
+            <span>Generate &amp; register</span><b>→</b>
+          </button>
+        </form>
+      </article>
+
+      <article class="panel rights-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">OPERATIONAL RIGHTS</p><h2>Voice registry</h2></div>
+          <span class="step-pill neutral">2 profiles</span>
+        </div>
+        <p class="muted">These statuses are workflow controls, not legal conclusions.</p>
+        <div id="voice-cards" class="voice-cards"></div>
+      </article>
+    </section>
+
+    <section class="panel campaigns-panel">
+      <div class="panel-head">
+        <div><p class="eyebrow">REVERSE LINEAGE INDEX</p><h2>Campaign derivatives</h2></div>
+        <div class="stats"><span id="campaign-count">0 assets</span><span id="revision-count">0 revisions</span></div>
+      </div>
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon">↳</div>
+        <h3>No derivatives yet</h3>
+        <p>Create a voice campaign to see manifest hashes, audio, and replacement lineage.</p>
+      </div>
+      <div id="campaign-list" class="campaign-list"></div>
+    </section>
+
+    <section class="trust-grid">
+      <article><span>GENERATION</span><h3>Actually local</h3><p>Piper neural TTS runs inside the service. Scripts never go to a hosted model API.</p></article>
+      <article><span>PROVENANCE</span><h3>Mechanically verifiable</h3><p>Genblaze binds source, model, profile, output hash, and replacement metadata.</p></article>
+      <article><span>STORAGE</span><h3>Durable by design</h3><p>B2 content-addressed keys deduplicate bytes while each run retains its own history.</p></article>
+      <article><span>BOUNDARY</span><h3>Honest scope</h3><p>RightsRelay executes operational decisions; it does not certify consent or legal compliance.</p></article>
+    </section>
+  </main>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <footer>Built with the real Python Genblaze SDK · Backblaze B2 ready · Piper/LibriTTS CC BY 4.0</footer>
+</body>
+</html>
+

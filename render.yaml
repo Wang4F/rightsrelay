@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: rightsrelay
+    runtime: python
+    plan: free
+    buildCommand: >-
+      pip install uv==0.11.25 &&
+      uv sync --frozen --no-dev --no-editable &&
+      .venv/bin/python scripts/download_voice.py
+    startCommand: .venv/bin/uvicorn rightsrelay.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /ready
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.15
+      - key: RIGHTSRELAY_VOICE_MODEL_PATH
+        value: .models/en_US-libritts_r-medium.onnx
+      - key: RIGHTSRELAY_VOICE_CONFIG_PATH
+        value: .models/en_US-libritts_r-medium.onnx.json
+      - key: RIGHTSRELAY_DATA_DIR
+        value: /tmp/rightsrelay
+      - key: RIGHTSRELAY_SEED_DEMO
+        value: true
+      - key: RIGHTSRELAY_REQUIRE_B2
+        value: true
+      - key: OMP_NUM_THREADS
+        value: 1
+      - key: B2_KEY_ID
+        sync: false
+      - key: B2_APP_KEY
+        sync: false
+      - key: B2_BUCKET
+        sync: false
+      - key: B2_REGION
+        value: us-west-004
